@@ -1,7 +1,7 @@
-import React, { FC, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../Store";
 import { jwtDecode } from "jwt-decode";
+import { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../Store";
 import { clearToken } from "../Store/pinSlice";
 
 interface TokenPayload {
