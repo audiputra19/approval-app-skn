@@ -36,7 +36,7 @@ export const PinAccess: FC = () => {
         isLoading ? (
             <Loading/>
         ) : (
-            <div className="flex justify-center items-center min-h-screen w-full bg-white dark:bg-gray-900">
+            <div className="flex justify-center items-center min-h-screen w-full bg-white">
                 <Alert/>
                 <div className="">
                     <PinInputForm onSubmit={handlePinSubmit} />
