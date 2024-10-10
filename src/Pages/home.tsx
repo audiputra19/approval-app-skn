@@ -87,7 +87,7 @@ const Home: FC = () => {
                         </div>
                     </div>
                 </div>
-                <div className="p-5 flex flex-col gap-5 mb-[75px]">
+                <div className="p-5 flex flex-col gap-5 mb-[70px]">
                     {report?.map((item: CashRequestRes, i: number) => {
                         const dueDate = moment(item.duedate).format('DD MMM YYYY');
                         const apprDate = moment(item.appr_date);
