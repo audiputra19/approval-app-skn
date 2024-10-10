@@ -1,9 +1,7 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 import { BrowserRouter } from 'react-router-dom';
-import { Router } from './Router/router';
+import './App.css';
 import { AlertProvider } from './Contexts/alertContext';
+import { Router } from './Router/router';
 
 function App() {
   return (

@@ -19,7 +19,7 @@ const Home: FC = () => {
 
     useEffect(() => {
         main(selectedItem);
-    }, []);
+    }, [main, selectedItem]);
 
     useEffect(() => {
         if (error) {
