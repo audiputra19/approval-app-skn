@@ -69,7 +69,7 @@ const Home: FC = () => {
                         return (
                             <div 
                                 key={i}
-                                className={`border shadow-md ${i === 0 ? 'bg-blue-100 border-blue-100 shadow-blue-200' : 'bg-white border-gray-100 shadow-gray-200'} rounded-xl p-5`}
+                                className={`border ${i === 0 ? 'bg-blue-100 border-blue-100' : 'bg-white border-gray-200'} rounded-xl p-5`}
                             >
                                 <div 
                                     className="flex justify-between items-center"
