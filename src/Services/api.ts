@@ -4,7 +4,8 @@ import { ApiCashRes, CashRequestReq, CashRequestRes } from "../Interfaces/main";
 
 export const api = createApi({
     reducerPath: "api",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
+    // baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
+    baseQuery: fetchBaseQuery({ baseUrl: "https://api-approval.vercel.app" }),
     endpoints: build => ({
         PinAccess: build.mutation<ApiRes<PinRes>, PinReq>({
             query: body => ({
