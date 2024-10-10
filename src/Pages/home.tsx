@@ -53,7 +53,7 @@ const Home: FC = () => {
                         <option value="1">UTM</option>
                     </select>
                 </div>
-                <div className="p-3 flex flex-col gap-5 mb-[75px]">
+                <div className="p-5 flex flex-col gap-5 mb-[75px]">
                     {report?.map((item: CashRequestRes, i: number) => {
                         const dueDate = moment(item.duedate).format('DD MMM YYYY');
                         const apprDate = moment(item.appr_date);
@@ -69,7 +69,7 @@ const Home: FC = () => {
                         return (
                             <div 
                                 key={i}
-                                className={`border border-blue-100 ${i === 0 ? 'bg-blue-100' : 'bg-white'} rounded-xl p-5`}
+                                className={`border shadow-md ${i === 0 ? 'bg-blue-100 border-blue-100 shadow-blue-200' : 'bg-white border-gray-100 shadow-gray-200'} rounded-xl p-5`}
                             >
                                 <div 
                                     className="flex justify-between items-center"
@@ -82,17 +82,19 @@ const Home: FC = () => {
                                     </div>
                                 </div>
                                 <div className="mt-2 flex flex-col gap-3">
-                                    <div className={`text-sm ${i === 0 ? 'text-blue-900' : 'text-gray-400'}`}>
-                                        {item.peruntukan}
+                                    <div className={`${i === 0 ? 'bg-blue-200 text-blue-900' : 'bg-gray-100 text-gray-700'} rounded-xl p-3`}>
+                                        <div className={`text-sm ${i === 0 ? 'text-blue-900' : 'text-gray-700'}`}>
+                                            {item.peruntukan}
+                                        </div>
                                     </div>
                                     <div className="flex flex-col gap-3">
-                                        <div className={`flex gap-2 border px-3 py-2 ${i === 0 ? 'bg-blue-200 text-blue-900' : 'bg-gray-100 text-gray-700'} rounded-xl items-center text-sm`}>
+                                        <div className={`flex gap-2 px-3 py-2 ${i === 0 ? 'bg-blue-200 text-blue-900' : 'bg-gray-100 text-gray-700'} rounded-xl items-center text-sm`}>
                                             <CreditCard size={20}/>
                                             <div>
                                                 {item.norek}
                                             </div>
                                         </div>
-                                        <div className={`flex gap-2 border px-3 py-2 ${i === 0 ? 'bg-blue-200 text-blue-900' : 'bg-gray-100 text-gray-700'} rounded-xl items-center text-sm`}>
+                                        <div className={`flex gap-2 px-3 py-2 ${i === 0 ? 'bg-blue-200 text-blue-900' : 'bg-gray-100 text-gray-700'} rounded-xl items-center text-sm`}>
                                             <CalendarClock size={20}/>
                                             <div>
                                                 <span className={`${i === 0 ? 'text-blue-900' : 'text-black'}`}>Due Date - </span>
