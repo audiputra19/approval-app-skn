@@ -45,7 +45,7 @@ const Home: FC = () => {
                 <Alert/>
                 <div className="sticky top-0 bg-white p-3 border-b border-gray-200">
                     <select
-                        className="select w-[150px] rounded-xl border border-gray-200"
+                        className="select w-[150px] rounded-xl bg-white border border-gray-200"
                         value={selectedItem.selectedComp}
                         onChange={handleSelectCompChange}
                     >

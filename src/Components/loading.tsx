@@ -18,12 +18,12 @@ const Loading: FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-white dark:bg-dark-main">
+    <div className="fixed inset-0 flex justify-center items-center bg-white">
       <div className="flex flex-col justify-center items-center gap-2">
-        <div className="animate-spin text-gray-700 dark:text-white">
+        <div className="animate-spin text-gray-700">
           <LoaderCircle size={32}/>
         </div>
-        <div className="text-sm text-gray-700 flex items-center dark:text-white">
+        <div className="text-sm text-gray-700 flex items-center">
           <p className="animate-pulsing">Memuat</p>
         </div>
       </div>
