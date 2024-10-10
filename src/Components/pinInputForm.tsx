@@ -8,11 +8,11 @@ const PinInputForm: React.FC<PinInputFormProps> = ({ onSubmit }) => {
     const [pin, setPin] = useState<string[]>(Array(6).fill('')); // Array untuk menyimpan nilai 6 digit
     const inputRefs = useRef<HTMLInputElement[]>([]); // Referensi untuk mengontrol input secara manual
 
-    useEffect(() => {
-        if (inputRefs.current[0]) {
-          inputRefs.current[0].focus();
-        }
-    }, []);    
+    // useEffect(() => {
+    //     if (inputRefs.current[0]) {
+    //       inputRefs.current[0].focus();
+    //     }
+    // }, []);    
 
     const handleChange = (value: string, index: number) => {
         if (/^\d?$/.test(value)) { // Hanya menerima satu digit angka
