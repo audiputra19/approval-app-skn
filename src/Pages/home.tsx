@@ -56,9 +56,9 @@ const Home: FC = () => {
         isLoading ? (
             <Loading/>
         ) : (
-            <div className="min-h-screen w-full bg-white">
+            <div className="min-h-screen w-full bg-gray-50">
                 <Alert/>
-                <div className="sticky top-0 bg-white p-3 border-b border-gray-200 shadow-sm">
+                <div className="sticky top-0 bg-white p-3 sm:px-10 md:px-28 lg:px-48 border-b border-gray-200 shadow-sm">
                     <div className="flex gap-3">
                         <select
                             className="select w-[150px] rounded-xl bg-white text-black border border-gray-200"
@@ -101,33 +101,39 @@ const Home: FC = () => {
                             const interval = days;
     
                             let color = 'border-gray-600 bg-gray-200 text-gray-600';
+                            let colorItem = 'border-gray-400';
                             if(interval < 0){
                                 if(item.status === 3){
                                     color = 'border-green-600 bg-green-200 text-green-600';
+                                    colorItem = 'border-green-400';
                                 } else {
                                     color = 'border-red-600 bg-red-200 text-red-600';
+                                    colorItem = 'border-red-400';
                                 }
                             } else if(interval >= 0 && interval < 8){
                                 color = 'border-blue-600 bg-blue-200 text-blue-600';
+                                colorItem = 'border-blue-400';
                             }
                             
     
                             return (
                                 <div 
                                     key={i}
-                                    className={`border bg-white border-gray-200 rounded-xl p-5`}
+                                    className={`border bg-white border-gray-200 rounded-xl p-5 sm:mx-10 md:mx-28 lg:mx-72 shadow-sm`}
                                 >
                                     <div 
                                         className="flex justify-between items-center"
                                     >
-                                        <div className={`font-semibold text-black`}>
+                                        <div className={`flex gap-3 items-center font-semibold text-black`}>
+                                            <div className={`border-4 ${colorItem} p-1 rounded-full`}></div>
                                             {item.id_cash}
                                         </div>
                                         <div>
                                             <input 
                                                 type="checkbox" 
-                                                className={`checkbox checkbox-md checkbox-primary border-gray-200`}
-                                                onChange={() => handleCheckboxChange(item.id_cash)} 
+                                                className={`checkbox checkbox-md checkbox-primary border-blue-900`}
+                                                onChange={() => handleCheckboxChange(item.id_cash)}
+                                                checked={item.status === 3 ? true : false} 
                                             />
                                         </div>
                                     </div>
@@ -141,7 +147,7 @@ const Home: FC = () => {
                                             <div className={`flex gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-xl items-center text-sm`}>
                                                 <CreditCard size={20}/>
                                                 <div>
-                                                    {item.norek}
+                                                    {item.norek ? item.norek : '-'}
                                                 </div>
                                             </div>
                                             <div className={`flex gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-xl items-center text-sm`}>
@@ -168,7 +174,7 @@ const Home: FC = () => {
                         })
                     )}
                 </div>
-                <div className="fixed bottom-0 bg-white p-3 w-full border-t border-gray-200">
+                <div className="fixed bottom-0 bg-white p-3 sm:px-10 md:px-28 lg:px-72 w-full border-t border-gray-200">
                     <button
                         className="w-full bg-blue-500 p-3 text-white rounded-xl font-semibold"
                     >
