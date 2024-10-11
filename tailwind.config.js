@@ -9,4 +9,14 @@ module.exports = {
   plugins: [
     require('daisyui'),
   ],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          primary: '#3b82f6',
+          success: '#22c55e',
+        }
+      }
+    ]
+  }
 }
