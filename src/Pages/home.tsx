@@ -174,13 +174,15 @@ const Home: FC = () => {
                         })
                     )}
                 </div>
-                <div className="fixed bottom-0 bg-white p-3 sm:px-10 md:px-28 lg:px-72 w-full border-t border-gray-200">
-                    <button
-                        className="w-full bg-blue-500 p-3 text-white rounded-xl font-semibold"
-                    >
-                        Save
-                    </button>
-                </div>
+                {report && report?.length > 0 && (
+                    <div className="fixed bottom-0 bg-white p-3 sm:px-10 md:px-28 lg:px-72 w-full border-t border-gray-200">
+                        <button
+                            className="w-full bg-blue-500 p-3 text-white rounded-xl font-semibold"
+                        >
+                            Save
+                        </button>
+                    </div>
+                )}
             </div>
         )
     )
