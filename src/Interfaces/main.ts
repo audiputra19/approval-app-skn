@@ -1,11 +1,12 @@
 export interface ApiCashRes<T> {
     data: T;
-    message: string;
+    message: string | undefined;
 }
 
 export interface CashRequestReq {
     selectedComp: string,
-    selectedAll: string
+    selectedAll: string,
+    selectedCheckbox: number[]
 }
 
 export interface CashRequestRes {

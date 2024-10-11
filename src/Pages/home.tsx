@@ -3,16 +3,18 @@ import Alert from "../Components/alert";
 import { useMainPostMutation } from "../Services/api";
 import { useAlert } from "../Contexts/alertContext";
 import Loading from "../Components/loading";
-import { CashRequestRes } from "../Interfaces/main";
+import { CashRequestReq, CashRequestRes } from "../Interfaces/main";
 import { CalendarClock, CreditCard } from "lucide-react";
 import moment from "moment";
 import { NotFound } from "../Components/notFound";
+import { read } from "fs";
 
 const Home: FC = () => {
 
     const [selectedItem, setSelectedItem] = useState({
         selectedComp: '',
-        selectedAll: ''
+        selectedAll: '',
+        selectedCheckbox: []
     });
     const [selectedCheckbox, setSelectedCheckbox] = useState<number[]>([]);
     const [main, {data, isLoading, error}] = useMainPostMutation();
@@ -50,6 +52,18 @@ const Home: FC = () => {
                 return [...prevCheckboxes, id];
             }
         })
+    }
+
+    const handleClickSave = async () => {
+        const payload: CashRequestReq = {
+            ...selectedItem,
+            selectedCheckbox: selectedCheckbox,
+        }
+
+        await main(payload);
+        await main(selectedItem);
+
+        showAlert(data?.message as string);
     }
 
     return (
@@ -98,7 +112,7 @@ const Home: FC = () => {
                                 days = dueDateOri.diff(today, 'days');
                             }
     
-                            const interval = days;
+                            const interval = Math.floor(days);
     
                             let color = 'border-gray-600 bg-gray-200 text-gray-600';
                             let colorItem = 'border-gray-400';
@@ -131,9 +145,10 @@ const Home: FC = () => {
                                         <div>
                                             <input 
                                                 type="checkbox" 
-                                                className={`checkbox checkbox-md checkbox-primary border-blue-900`}
+                                                className={`checkbox checkbox-md ${item.status === 3 ? 'checkbox-success border-green-900' : 'checkbox-primary border-blue-900'}`}
                                                 onChange={() => handleCheckboxChange(item.id_cash)}
-                                                checked={item.status === 3 ? true : false} 
+                                                checked={item.status === 3 || selectedCheckbox.includes(item.id_cash)} 
+                                                readOnly={item.status === 3}
                                             />
                                         </div>
                                     </div>
@@ -178,6 +193,7 @@ const Home: FC = () => {
                     <div className="fixed bottom-0 bg-white p-3 sm:px-10 md:px-28 lg:px-72 w-full border-t border-gray-200">
                         <button
                             className="w-full bg-blue-500 p-3 text-white rounded-xl font-semibold"
+                            onClick={handleClickSave}
                         >
                             Save
                         </button>
