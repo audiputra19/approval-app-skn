@@ -22,7 +22,7 @@ const Home: FC = () => {
     const report = data?.data as CashRequestRes[] | undefined;
 
     // console.log('selected checkbox all:', selectedItem.selectedAll);
-    console.log('selected checkbox item:', selectedCheckbox);
+    // console.log('selected checkbox item:', selectedCheckbox);
 
     useEffect(() => {
         main(selectedItem);
