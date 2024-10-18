@@ -22,7 +22,7 @@ const Home: FC = () => {
     const report = data?.data as CashRequestRes[] | undefined;
 
     // console.log('selected checkbox all:', selectedItem.selectedAll);
-    // console.log('selected checkbox item:', selectedCheckbox);
+    console.log('selected checkbox item:', selectedCheckbox);
 
     useEffect(() => {
         main(selectedItem);
@@ -44,8 +44,12 @@ const Home: FC = () => {
         main({ ...selectedItem, selectedComp: e.target.value });
     }
     
-    const handleCheckboxChange = (id: number) => {
+    const handleCheckboxChange = (id: number, status: number) => {
         setSelectedCheckbox(prevCheckboxes => {
+            if(status === 3) {
+                return prevCheckboxes;
+            }
+
             if(prevCheckboxes.includes(id)) {
                 return prevCheckboxes.filter(checkbox => checkbox !== id);
             } else {
@@ -146,7 +150,7 @@ const Home: FC = () => {
                                             <input 
                                                 type="checkbox" 
                                                 className={`checkbox checkbox-md ${item.status === 3 ? 'checkbox-success border-green-900' : 'checkbox-primary border-blue-900'}`}
-                                                onChange={() => handleCheckboxChange(item.id_cash)}
+                                                onChange={() => handleCheckboxChange(item.id_cash, item.status)}
                                                 checked={item.status === 3 || selectedCheckbox.includes(item.id_cash)} 
                                                 readOnly={item.status === 3}
                                             />
