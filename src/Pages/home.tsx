@@ -162,7 +162,7 @@ const Home: FC = () => {
                                                 {item.peruntukan}
                                             </div>
                                         </div>
-                                        <div className="flex flex-col gap-3">
+                                        {/* <div className="flex flex-col gap-3">
                                             <div className={`flex gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-xl items-center text-sm`}>
                                                 <CreditCard size={20}/>
                                                 <div>
@@ -176,7 +176,7 @@ const Home: FC = () => {
                                                     {dueDate}
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         <div className="mt-2 flex justify-between items-center">
                                             <p className={`text-black font-semibold`}>Rp. 
                                                 <span className={`text-black text-xl font-semibold ml-1`}>{Number(item.jumlah).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
