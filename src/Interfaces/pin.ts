@@ -10,3 +10,11 @@ export interface PinReq {
 export interface PinRes {
     token: string;
 }
+
+export interface PinChangeReq {
+    newPin: string;
+}
+
+export interface PinChangeRes {
+    message: string;
+}

@@ -1,13 +1,12 @@
+import moment from "moment";
 import React, { FC, useEffect, useState } from "react";
 import Alert from "../Components/alert";
-import { useMainPostMutation } from "../Services/api";
-import { useAlert } from "../Contexts/alertContext";
 import Loading from "../Components/loading";
-import { CashRequestReq, CashRequestRes } from "../Interfaces/main";
-import { CalendarClock, CreditCard } from "lucide-react";
-import moment from "moment";
+import { ChangePinModal } from "../Components/modalChangePin";
 import { NotFound } from "../Components/notFound";
-import { read } from "fs";
+import { useAlert } from "../Contexts/alertContext";
+import { CashRequestReq, CashRequestRes } from "../Interfaces/main";
+import { useMainPostMutation } from "../Services/api";
 
 const Home: FC = () => {
 
@@ -20,6 +19,10 @@ const Home: FC = () => {
     const [main, {data, isLoading, error}] = useMainPostMutation();
     const { showAlert } = useAlert();
     const report = data?.data as CashRequestRes[] | undefined;
+    const [isChangePinModalOpen, setIsChangePinModalOpen] = useState(false);
+
+    const openChangePinModal = () => setIsChangePinModalOpen(true);
+    const closeChangePinModal = () => setIsChangePinModalOpen(false);
 
     // console.log('selected checkbox all:', selectedItem.selectedAll);
     // console.log('selected checkbox item:', selectedCheckbox);
@@ -77,26 +80,36 @@ const Home: FC = () => {
             <div className="min-h-screen w-full bg-gray-50">
                 <Alert/>
                 <div className="sticky top-0 bg-white p-3 sm:px-10 md:px-28 lg:px-48 border-b border-gray-200 shadow-sm">
-                    <div className="flex gap-3">
-                        <select
-                            className="select w-[150px] rounded-xl bg-white text-black border border-gray-200"
-                            value={selectedItem.selectedComp}
-                            onChange={handleSelectCompChange}
-                        >
-                            <option value="0">BES</option>
-                            <option value="1">UTM</option>
-                        </select>
-                        <div className="flex items-center gap-2">
-                            <span className="text-sm text-black">Show All</span>
-                            <input 
-                                type="checkbox" 
-                                className="checkbox checkbox-md checkbox-primary border-blue-900"
-                                onChange={(e) => setSelectedItem(prev => ({
-                                    ...prev,
-                                    selectedAll: e.target.checked ? '1' : '0'
-                                }))}
-                                checked={selectedItem.selectedAll === '1'}
-                            />
+                    <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-3">
+                            <select
+                                className="select w-[100px] rounded-xl bg-white text-black border border-gray-200"
+                                value={selectedItem.selectedComp}
+                                onChange={handleSelectCompChange}
+                            >
+                                <option value="0">BES</option>
+                                <option value="1">UTM</option>
+                            </select>
+                            <div className="flex items-center gap-2">
+                                <span className="text-sm text-black">Show All</span>
+                                <input 
+                                    type="checkbox" 
+                                    className="checkbox checkbox-md checkbox-primary border-blue-900"
+                                    onChange={(e) => setSelectedItem(prev => ({
+                                        ...prev,
+                                        selectedAll: e.target.checked ? '1' : '0'
+                                    }))}
+                                    checked={selectedItem.selectedAll === '1'}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <button 
+                                className="py-2 px-4 bg-blue-500 text-white rounded-xl 
+                                text-sm font-semibold hover:bg-blue-600"
+                                onClick={openChangePinModal}>
+                                Change PIN
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -196,13 +209,14 @@ const Home: FC = () => {
                 {report && report?.length > 0 && (
                     <div className="fixed bottom-0 bg-white p-3 sm:px-10 md:px-28 lg:px-72 w-full border-t border-gray-200">
                         <button
-                            className="w-full bg-blue-500 p-3 text-white rounded-xl font-semibold"
+                            className="w-full bg-blue-500 p-3 text-white rounded-xl font-semibold hover:bg-blue-600"
                             onClick={handleClickSave}
                         >
                             Save
                         </button>
                     </div>
                 )}
+                <ChangePinModal isOpen={isChangePinModalOpen} onClose={closeChangePinModal} />
             </div>
         )
     )
