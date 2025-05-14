@@ -37,15 +37,6 @@ const Home: FC = () => {
             showAlert(message);
         }
     }, [error, showAlert]);
-
-    const handleSelectCompChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedItem(prev => ({
-            ...prev,
-            selectedComp: e.target.value
-        }));
-
-        main({ ...selectedItem, selectedComp: e.target.value });
-    }
     
     const handleCheckboxChange = (id: number, status: number) => {
         setSelectedCheckbox(prevCheckboxes => {
@@ -82,14 +73,6 @@ const Home: FC = () => {
                 <div className="sticky top-0 bg-white p-3 sm:px-10 md:px-28 lg:px-48 border-b border-gray-200 shadow-sm">
                     <div className="flex justify-between items-center">
                         <div className="flex items-center gap-3">
-                            <select
-                                className="select w-[100px] rounded-xl bg-white text-black border border-gray-200"
-                                value={selectedItem.selectedComp}
-                                onChange={handleSelectCompChange}
-                            >
-                                <option value="0">BES</option>
-                                <option value="1">UTM</option>
-                            </select>
                             <div className="flex items-center gap-2">
                                 <span className="text-sm text-black">Show All</span>
                                 <input 

@@ -54,7 +54,7 @@ const PinInputForm: React.FC<PinInputFormProps> = ({ onSubmit }) => {
                 value={pin[index]}
                 onChange={(e) => handleChange(e.target.value, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                ref={(el) => (inputRefs.current[index] = el!)}
+                ref={(el) => {inputRefs.current[index] = el!}}
                 className="w-12 h-12 text-center text-black border bg-white border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-xl"
                 />
             ))}

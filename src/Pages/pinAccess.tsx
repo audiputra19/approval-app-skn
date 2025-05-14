@@ -22,7 +22,8 @@ export const PinAccess: FC = () => {
             showAlert(data.message);
             navigate('/');
         } else if(error) {
-            const message = (error as any).data.message;
+            const err = error as any;
+            const message = err?.data?.message || "Terjadi kesalahan saat validasi PIN.";
             showAlert(message);
         }
     }, [data, isSuccess, error, dispatch, showAlert, navigate]);
