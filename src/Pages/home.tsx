@@ -7,6 +7,7 @@ import { NotFound } from "../Components/notFound";
 import { useAlert } from "../Contexts/alertContext";
 import { CashRequestReq, CashRequestRes } from "../Interfaces/main";
 import { useMainPostMutation } from "../Services/api";
+import { FileText } from "lucide-react";
 
 const Home: FC = () => {
 
@@ -141,7 +142,7 @@ const Home: FC = () => {
                                         <div className={`flex gap-3 items-center font-semibold text-black`}>
                                             <div className={`border-4 ${colorItem} p-1 rounded-full`}></div>
                                             {item.id_cash}
-                                        </div>
+                                        </div>   
                                         <div>
                                             <input 
                                                 type="checkbox" 
@@ -152,27 +153,24 @@ const Home: FC = () => {
                                             />
                                         </div>
                                     </div>
+                                    <div className="ml-7">
+                                        <p className="text-sm text-gray-500">{item.divisi}</p>
+                                    </div> 
                                     <div className="mt-2 flex flex-col gap-3">
                                         <div className={`bg-gray-100 text-gray-700 rounded-xl p-3`}>
                                             <div className={`text-sm text-gray-700`}>
                                                 {item.peruntukan}
                                             </div>
                                         </div>
-                                        {/* <div className="flex flex-col gap-3">
-                                            <div className={`flex gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-xl items-center text-sm`}>
-                                                <CreditCard size={20}/>
-                                                <div>
-                                                    {item.norek ? item.norek : '-'}
-                                                </div>
-                                            </div>
-                                            <div className={`flex gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-xl items-center text-sm`}>
-                                                <CalendarClock size={20}/>
-                                                <div>
-                                                    <span className={`text-black`}>Due Date - </span>
-                                                    {dueDate}
-                                                </div>
-                                            </div>
-                                        </div> */}
+                                        <div className="">
+                                            <a 
+                                                href={`https://app.sknmedical.co.id/skn/purchasing/kontra_bon_cetak.php?no=${item.referensi}`}
+                                                className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
+                                            >
+                                                <FileText size={18}/>
+                                                Detail
+                                            </a>
+                                        </div>    
                                         <div className="mt-2 flex justify-between items-center">
                                             <p className={`text-black font-semibold`}>Rp. 
                                                 <span className={`text-black text-xl font-semibold ml-1`}>{Number(item.jumlah).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
