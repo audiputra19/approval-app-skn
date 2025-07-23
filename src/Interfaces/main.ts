@@ -31,3 +31,11 @@ export interface CashFilesRes {
     file_name: string,
     file_path: string
 }
+
+export interface PoKontrabonReq {
+    noKontrabon: string;
+}
+
+export interface PoKontrabonRes {
+    nopo: string;
+}

@@ -1,38 +1,38 @@
 import { X } from "lucide-react";
 import { FC, useEffect } from "react";
-import { useFilePostMutation } from "../Services/api";
+import { useFilePostMutation, usePoKontrabonMutation } from "../Services/api";
 import { CashFilesRes } from "../Interfaces/main";
 import Loading from "./loading";
 
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
-    idCash: number;
+    noKontrabon: string;
 }
-export const ModalDoc: FC<ModalProps> = ({ isOpen, onClose, idCash }) => {
+export const ModalPoKontrabon: FC<ModalProps> = ({ isOpen, onClose, noKontrabon }) => {
     
-    const [file, {data, isLoading}] = useFilePostMutation();
+    const [poKontrabon, {data, isLoading}] = usePoKontrabonMutation();
     //console.log(data?.length)
     
     useEffect(() => {
-        if (isOpen && idCash) {
-        file({ id: idCash });
+        if (isOpen && noKontrabon) {
+        poKontrabon({ noKontrabon });
         }
-    }, [isOpen, idCash, file]);
+    }, [isOpen, noKontrabon, poKontrabon]);
 
     if(!isOpen) return null
 
     const listFile = data?.map((item, index) => {
         return (
             <a
-                href={`https://app.sknmedical.co.id/skn/fnc/cash_request/${item.file_path}`}
-                key={item.file_name}
+                href={`https://app.sknmedical.co.id/skn/purchasing/po_pdf.php?no=${item.nopo}`}
+                key={item.nopo}
                 target="_blank"
                 rel="noopener noreferrer"
             >
                 <span className="flex">
                     <p className="w-[25px] text-center font-bold">{index + 1}.</p>
-                    <p className="text-blue-600 underline">{item.file_name}</p>
+                    <p className="text-blue-600 underline">{item.nopo}</p>
                 </span>
             </a>
         )

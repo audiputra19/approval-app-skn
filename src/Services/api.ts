@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ApiRes, PinChangeReq, PinChangeRes, PinReq, PinRes } from "../Interfaces/pin";
-import { ApiCashRes, CashFilesReq, CashFilesRes, CashRequestReq, CashRequestRes } from "../Interfaces/main";
+import { ApiCashRes, CashFilesReq, CashFilesRes, CashRequestReq, CashRequestRes, PoKontrabonReq, PoKontrabonRes } from "../Interfaces/main";
 
 export const api = createApi({
     reducerPath: "api",
@@ -35,7 +35,14 @@ export const api = createApi({
                 body,
             })
         }),
+        PoKontrabon: build.mutation<PoKontrabonRes[], PoKontrabonReq>({
+            query: body => ({
+                url: "/kontrabon",
+                method: "POST",
+                body
+            })
+        })
     })
 })
 
-export const { usePinAccessMutation, useMainPostMutation, usePinChangeMutation, useFilePostMutation } = api;
+export const { usePinAccessMutation, useMainPostMutation, usePinChangeMutation, useFilePostMutation, usePoKontrabonMutation } = api;

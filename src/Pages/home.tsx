@@ -9,6 +9,7 @@ import { CashRequestReq, CashRequestRes } from "../Interfaces/main";
 import { useMainPostMutation } from "../Services/api";
 import { FileText } from "lucide-react";
 import { ModalDoc } from "../Components/modalDoc";
+import { ModalPoKontrabon } from "../Components/modalPoKontrabon";
 
 const Home: FC = () => {
 
@@ -23,13 +24,18 @@ const Home: FC = () => {
     const report = data?.data as CashRequestRes[] | undefined;
     const [isChangePinModalOpen, setIsChangePinModalOpen] = useState(false);
     const [isModalDocOpen, setIsModalDocOpen] = useState(false);
+    const [isModalPoKontrabon, setisModalPoKontrabon] = useState(false);
     const [selectedIdCash, setSelectedIdCash] = useState(0);
+    const [selectedReferensi, setSelectedReferensi] = useState("");
 
     const openChangePinModal = () => setIsChangePinModalOpen(true);
     const closeChangePinModal = () => setIsChangePinModalOpen(false);
 
     const openModalDoc = () => setIsModalDocOpen(true);
     const closeModalDoc = () => setIsModalDocOpen(false);
+
+    const openModalPoKontrabon = () => setisModalPoKontrabon(true);
+    const closeModalPoKontrabon = () => setisModalPoKontrabon(false);
 
     // console.log('selected checkbox all:', selectedItem.selectedAll);
     // console.log('selected checkbox item:', selectedCheckbox);
@@ -182,23 +188,38 @@ const Home: FC = () => {
                                         </div>
                                         {item.divisi === 'Purchasing' &&
                                             <div className="flex gap-2">
-                                                <a 
-                                                    href={`https://app.sknmedical.co.id/skn/purchasing/${link}.php?no=${item.referensi}`}
-                                                    className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
-                                                >
-                                                    <FileText size={18}/>
-                                                    Detail
-                                                </a>
-                                                <div 
-                                                    className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
-                                                    onClick={() => {
-                                                        setSelectedIdCash(item.id_cash);
-                                                        openModalDoc();
-                                                    }}
-                                                >
-                                                    <FileText size={18}/>
-                                                    Doc
-                                                </div>
+                                                {jenis === 'KB' ? (
+                                                    <div
+                                                        className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
+                                                        onClick={() => {
+                                                            setSelectedReferensi(item.referensi)
+                                                            openModalPoKontrabon();
+                                                        }}
+                                                    >
+                                                        <FileText size={18}/>
+                                                        Detail
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <a 
+                                                            href={`https://app.sknmedical.co.id/skn/purchasing/${link}.php?no=${item.referensi}`}
+                                                            className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
+                                                        >
+                                                            <FileText size={18}/>
+                                                            Detail
+                                                        </a>
+                                                        <div 
+                                                            className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
+                                                            onClick={() => {
+                                                                setSelectedIdCash(item.id_cash);
+                                                                openModalDoc();
+                                                            }}
+                                                        >
+                                                            <FileText size={18}/>
+                                                            Doc
+                                                        </div>
+                                                    </>
+                                                )}
                                             </div>    
                                         }
                                         <div className="mt-2 flex justify-between items-center">
@@ -229,6 +250,11 @@ const Home: FC = () => {
                 )}
                 <ChangePinModal isOpen={isChangePinModalOpen} onClose={closeChangePinModal} />
                 <ModalDoc isOpen={isModalDocOpen} onClose={closeModalDoc} idCash={selectedIdCash} />
+                <ModalPoKontrabon 
+                    isOpen={isModalPoKontrabon} 
+                    onClose={closeModalPoKontrabon} 
+                    noKontrabon={selectedReferensi} 
+                />
             </div>
         )
     )
