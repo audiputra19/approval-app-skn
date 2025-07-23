@@ -21,3 +21,13 @@ export interface CashRequestRes {
     referensi: string,
     divisi: string
 }
+
+export interface CashFilesReq {
+    id: number
+}
+
+export interface CashFilesRes {
+    id: string,
+    name: string,
+    path: string
+}

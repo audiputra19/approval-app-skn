@@ -8,6 +8,7 @@ import { useAlert } from "../Contexts/alertContext";
 import { CashRequestReq, CashRequestRes } from "../Interfaces/main";
 import { useMainPostMutation } from "../Services/api";
 import { FileText } from "lucide-react";
+import { ModalDoc } from "../Components/modalDoc";
 
 const Home: FC = () => {
 
@@ -21,9 +22,14 @@ const Home: FC = () => {
     const { showAlert } = useAlert();
     const report = data?.data as CashRequestRes[] | undefined;
     const [isChangePinModalOpen, setIsChangePinModalOpen] = useState(false);
+    const [isModalDocOpen, setIsModalDocOpen] = useState(false);
+    const [selectedIdCash, setSelectedIdCash] = useState(0);
 
     const openChangePinModal = () => setIsChangePinModalOpen(true);
     const closeChangePinModal = () => setIsChangePinModalOpen(false);
+
+    const openModalDoc = () => setIsModalDocOpen(true);
+    const closeModalDoc = () => setIsModalDocOpen(false);
 
     // console.log('selected checkbox all:', selectedItem.selectedAll);
     // console.log('selected checkbox item:', selectedCheckbox);
@@ -130,6 +136,18 @@ const Home: FC = () => {
                                 colorItem = 'border-blue-400';
                             }
                             
+                            const kode = item.referensi;
+                            const parts = kode.split('/');
+                            const jenis = parts[1];
+
+                            let link = "";
+                            if (jenis === 'BS') {
+                                link = "belanja_po";
+                            } else if (jenis === 'KB') {
+                                link = "kontra_bon_cetak";
+                            } else if (jenis === 'PO') {
+                                link = "po_pdf";
+                            }
     
                             return (
                                 <div 
@@ -162,15 +180,27 @@ const Home: FC = () => {
                                                 {item.peruntukan}
                                             </div>
                                         </div>
-                                        <div className="">
-                                            <a 
-                                                href={`https://app.sknmedical.co.id/skn/purchasing/kontra_bon_cetak.php?no=${item.referensi}`}
-                                                className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
-                                            >
-                                                <FileText size={18}/>
-                                                Detail
-                                            </a>
-                                        </div>    
+                                        {item.divisi === 'Purchasing' &&
+                                            <div className="flex gap-2">
+                                                <a 
+                                                    href={`https://app.sknmedical.co.id/skn/purchasing/${link}.php?no=${item.referensi}`}
+                                                    className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
+                                                >
+                                                    <FileText size={18}/>
+                                                    Detail
+                                                </a>
+                                                <div 
+                                                    className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
+                                                    onClick={() => {
+                                                        setSelectedIdCash(item.id_cash);
+                                                        openModalDoc();
+                                                    }}
+                                                >
+                                                    <FileText size={18}/>
+                                                    Doc
+                                                </div>
+                                            </div>    
+                                        }
                                         <div className="mt-2 flex justify-between items-center">
                                             <p className={`text-black font-semibold`}>Rp. 
                                                 <span className={`text-black text-xl font-semibold ml-1`}>{Number(item.jumlah).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
@@ -198,6 +228,7 @@ const Home: FC = () => {
                     </div>
                 )}
                 <ChangePinModal isOpen={isChangePinModalOpen} onClose={closeChangePinModal} />
+                <ModalDoc isOpen={isModalDocOpen} onClose={closeModalDoc} idCash={selectedIdCash} />
             </div>
         )
     )
