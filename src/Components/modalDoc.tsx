@@ -11,6 +11,7 @@ interface ModalProps {
 export const ModalDoc: FC<ModalProps> = ({ isOpen, onClose, idCash }) => {
     
     const [file, {data}] = useFilePostMutation();
+    //console.log(data?.length)
     
     useEffect(() => {
         if (isOpen && idCash) {
@@ -20,10 +21,16 @@ export const ModalDoc: FC<ModalProps> = ({ isOpen, onClose, idCash }) => {
 
     if(!isOpen) return null
 
-    const listFile = (data?.data as unknown as CashFilesRes[])?.map((item, index) => {
+    const listFile = data?.map((item, index) => {
         return (
-            <a href={`https://app.sknmedical.co.id/skn/fnc/cash_request/${item.path}`}>
-                {item.name}
+            <a 
+                href={`https://app.sknmedical.co.id/skn/fnc/cash_request/${item.file_path}`}
+                key={item.file_name}
+            >
+                <span className="flex">
+                    <p className="w-[25px] text-center font-bold">{index + 1}.</p>
+                    <p>{item.file_name}</p>
+                </span>
             </a>
         )
     })
@@ -36,7 +43,11 @@ export const ModalDoc: FC<ModalProps> = ({ isOpen, onClose, idCash }) => {
                 </div>
                 <h2 className="text-xl font-bold mb-4">Document</h2>
                 <div className="flex flex-col gap-3">
-                    {listFile}
+                    {data && data.length > 0 ? (
+                        listFile
+                    ) : (
+                        <p className="text-center">Tidak ada dokumen</p>
+                    )}
                 </div>
             </div>
         </div>

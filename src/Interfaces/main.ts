@@ -27,7 +27,7 @@ export interface CashFilesReq {
 }
 
 export interface CashFilesRes {
-    id: string,
-    name: string,
-    path: string
+    id_cash: number,
+    file_name: string,
+    file_path: string
 }

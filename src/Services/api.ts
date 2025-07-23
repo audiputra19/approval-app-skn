@@ -28,7 +28,7 @@ export const api = createApi({
                 body,
             })
         }),
-        FilePost: build.mutation<ApiCashRes<CashFilesRes>, CashFilesReq>({
+        FilePost: build.mutation<CashFilesRes[], CashFilesReq>({
             query: body => ({
                 url: "/file",
                 method: "POST",
