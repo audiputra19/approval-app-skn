@@ -39,3 +39,9 @@ export interface PoKontrabonReq {
 export interface PoKontrabonRes {
     nopo: string;
 }
+
+export interface GetSaldoRes {
+    saldoMandiri: number;
+    saldoBca: number;
+    saldoKas: number;
+}

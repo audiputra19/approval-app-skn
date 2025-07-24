@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ApiRes, PinChangeReq, PinChangeRes, PinReq, PinRes } from "../Interfaces/pin";
-import { ApiCashRes, CashFilesReq, CashFilesRes, CashRequestReq, CashRequestRes, PoKontrabonReq, PoKontrabonRes } from "../Interfaces/main";
+import { ApiCashRes, CashFilesReq, CashFilesRes, CashRequestReq, CashRequestRes, GetSaldoRes, PoKontrabonReq, PoKontrabonRes } from "../Interfaces/main";
 
 export const api = createApi({
     reducerPath: "api",
-    // baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
-    baseQuery: fetchBaseQuery({ baseUrl: "https://api-approval-skn.vercel.app" }),
+    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
+    // baseQuery: fetchBaseQuery({ baseUrl: "https://api-approval-skn.vercel.app" }),
     endpoints: build => ({
         PinAccess: build.mutation<ApiRes<PinRes>, PinReq>({
             query: body => ({
@@ -41,8 +41,15 @@ export const api = createApi({
                 method: "POST",
                 body
             })
+        }),
+        GetSaldo: build.query<GetSaldoRes, void>({
+            query: () => ({
+                url: '/get-saldo',
+                method: 'POST'
+            })
         })
     })
 })
 
-export const { usePinAccessMutation, useMainPostMutation, usePinChangeMutation, useFilePostMutation, usePoKontrabonMutation } = api;
+export const { usePinAccessMutation, useMainPostMutation, usePinChangeMutation, useFilePostMutation, 
+    usePoKontrabonMutation, useGetSaldoQuery } = api;

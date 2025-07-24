@@ -7,9 +7,10 @@ import { NotFound } from "../Components/notFound";
 import { useAlert } from "../Contexts/alertContext";
 import { CashRequestReq, CashRequestRes } from "../Interfaces/main";
 import { useMainPostMutation } from "../Services/api";
-import { FileText } from "lucide-react";
+import { CircleDollarSign, FileText } from "lucide-react";
 import { ModalDoc } from "../Components/modalDoc";
 import { ModalPoKontrabon } from "../Components/modalPoKontrabon";
+import { ModalSaldo } from "../Components/modalSaldo";
 
 const Home: FC = () => {
 
@@ -25,6 +26,7 @@ const Home: FC = () => {
     const [isChangePinModalOpen, setIsChangePinModalOpen] = useState(false);
     const [isModalDocOpen, setIsModalDocOpen] = useState(false);
     const [isModalPoKontrabon, setisModalPoKontrabon] = useState(false);
+    const [isModalSaldoOpen, setIsModalSaldoOpen] = useState(false);
     const [selectedIdCash, setSelectedIdCash] = useState(0);
     const [selectedReferensi, setSelectedReferensi] = useState("");
 
@@ -36,6 +38,9 @@ const Home: FC = () => {
 
     const openModalPoKontrabon = () => setisModalPoKontrabon(true);
     const closeModalPoKontrabon = () => setisModalPoKontrabon(false);
+
+    const openModalSaldo = () => setIsModalSaldoOpen(true);
+    const closeModalSaldo = () => setIsModalSaldoOpen(false);
 
     // console.log('selected checkbox all:', selectedItem.selectedAll);
     // console.log('selected checkbox item:', selectedCheckbox);
@@ -109,7 +114,7 @@ const Home: FC = () => {
                         </div>
                     </div>
                 </div>
-                <div className="p-5 flex flex-col gap-5 mb-[70px]">
+                <div className="p-5 flex flex-col gap-5 mb-[110px]">
                     {report && report.length === 0 ? (
                         <NotFound/>
                     ) : (
@@ -240,6 +245,12 @@ const Home: FC = () => {
                 </div>
                 {report && report?.length > 0 && (
                     <div className="fixed bottom-0 bg-white p-3 sm:px-10 md:px-28 lg:px-72 w-full border-t border-gray-200">
+                        <button 
+                            className="btn btn-sm text-xs border-gray-400 mb-2"
+                            onClick={() => openModalSaldo()}
+                        >
+                            <CircleDollarSign size={16}/> Lihat Saldo
+                        </button>    
                         <button
                             className="w-full bg-blue-500 p-3 text-white rounded-xl font-semibold hover:bg-blue-600"
                             onClick={handleClickSave}
@@ -255,6 +266,7 @@ const Home: FC = () => {
                     onClose={closeModalPoKontrabon} 
                     noKontrabon={selectedReferensi} 
                 />
+                <ModalSaldo isOpen={isModalSaldoOpen} onClose={closeModalSaldo} />
             </div>
         )
     )
