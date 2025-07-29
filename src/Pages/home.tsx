@@ -5,9 +5,9 @@ import Loading from "../Components/loading";
 import { ChangePinModal } from "../Components/modalChangePin";
 import { NotFound } from "../Components/notFound";
 import { useAlert } from "../Contexts/alertContext";
-import { CashRequestReq, CashRequestRes } from "../Interfaces/main";
+import { CashFilesRes, CashRequestReq, CashRequestRes } from "../Interfaces/main";
 import { useMainPostMutation } from "../Services/api";
-import { CircleDollarSign, FileText } from "lucide-react";
+import { CircleDollarSign, FileText, SquareAsterisk } from "lucide-react";
 import { ModalDoc } from "../Components/modalDoc";
 import { ModalPoKontrabon } from "../Components/modalPoKontrabon";
 import { ModalSaldo } from "../Components/modalSaldo";
@@ -15,7 +15,7 @@ import { ModalSaldo } from "../Components/modalSaldo";
 const Home: FC = () => {
 
     const [selectedItem, setSelectedItem] = useState({
-        selectedComp: '',
+        selectedTipe: '0',
         selectedAll: '',
         selectedCheckbox: []
     });
@@ -29,6 +29,8 @@ const Home: FC = () => {
     const [isModalSaldoOpen, setIsModalSaldoOpen] = useState(false);
     const [selectedIdCash, setSelectedIdCash] = useState(0);
     const [selectedReferensi, setSelectedReferensi] = useState("");
+    const [docData, setDocData] = useState<CashFilesRes[]>([]);
+    //console.log(docData);
 
     const openChangePinModal = () => setIsChangePinModalOpen(true);
     const closeChangePinModal = () => setIsChangePinModalOpen(false);
@@ -91,6 +93,21 @@ const Home: FC = () => {
                 <div className="sticky top-0 bg-white p-3 sm:px-10 md:px-28 lg:px-48 border-b border-gray-200 shadow-sm">
                     <div className="flex justify-between items-center">
                         <div className="flex items-center gap-3">
+                            <div>
+                                <select 
+                                    className="border border-gray-400 text-xs px-2 py-1 rounded-lg"
+                                    value={selectedItem.selectedTipe}
+                                    onChange={(e) => 
+                                        setSelectedItem(prev => ({
+                                            ...prev, 
+                                            selectedTipe: e.target.value
+                                        }))
+                                    }
+                                >
+                                    <option value="0">Dana</option>
+                                    <option value="1">Acc PO</option>
+                                </select>
+                            </div>
                             <div className="flex items-center gap-2">
                                 <span className="text-sm text-black">Show All</span>
                                 <input 
@@ -105,12 +122,12 @@ const Home: FC = () => {
                             </div>
                         </div>
                         <div>
-                            <button 
+                            {/*<button 
                                 className="py-2 px-4 bg-blue-500 text-white rounded-xl 
                                 text-sm font-semibold hover:bg-blue-600"
                                 onClick={openChangePinModal}>
                                 Change PIN
-                            </button>
+                            </button>*/}
                         </div>
                     </div>
                 </div>
@@ -191,7 +208,7 @@ const Home: FC = () => {
                                                 {item.peruntukan}
                                             </div>
                                         </div>
-                                        {item.divisi === 'Purchasing' &&
+                                        {item.divisi === 'Purchasing' ?
                                             <div className="flex gap-2">
                                                 {jenis === 'KB' ? (
                                                     <div
@@ -213,20 +230,37 @@ const Home: FC = () => {
                                                             <FileText size={18}/>
                                                             Detail
                                                         </a>
-                                                        <div 
-                                                            className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
-                                                            onClick={() => {
-                                                                setSelectedIdCash(item.id_cash);
-                                                                openModalDoc();
-                                                            }}
-                                                        >
-                                                            <FileText size={18}/>
-                                                            Doc
-                                                        </div>
+                                                        {docData.some(doc => doc.id_cash === item.id_cash) && (
+                                                            <div 
+                                                                className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
+                                                                onClick={() => {
+                                                                    setSelectedIdCash(item.id_cash);
+                                                                    openModalDoc();
+                                                                }}
+                                                            >
+                                                                <FileText size={18}/>
+                                                                Doc
+                                                            </div>
+                                                        )}
                                                     </>
                                                 )}
                                             </div>    
-                                        }
+                                        : (
+                                            <div className="flex gap-2">
+                                                {docData.some(doc => doc.id_cash === item.id_cash) && (
+                                                    <div 
+                                                        className="border text-blue-500 border-blue-500 btn btn-sm hover:bg-blue-500 hover:text-white"
+                                                        onClick={() => {
+                                                            setSelectedIdCash(item.id_cash);
+                                                            openModalDoc();
+                                                        }}
+                                                    >
+                                                        <FileText size={18}/>
+                                                        Doc
+                                                    </div>
+                                                )}
+                                            </div>    
+                                        )}
                                         <div className="mt-2 flex justify-between items-center">
                                             <p className={`text-black font-semibold`}>Rp. 
                                                 <span className={`text-black text-xl font-semibold ml-1`}>{Number(item.jumlah).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
@@ -245,12 +279,20 @@ const Home: FC = () => {
                 </div>
                 {report && report?.length > 0 && (
                     <div className="fixed bottom-0 bg-white p-3 sm:px-10 md:px-28 lg:px-72 w-full border-t border-gray-200">
-                        <button 
-                            className="btn btn-sm text-xs border-gray-400 mb-2"
-                            onClick={() => openModalSaldo()}
-                        >
-                            <CircleDollarSign size={16}/> Lihat Saldo
-                        </button>    
+                        <div className="flex justify-between">
+                            <button 
+                                className="btn btn-sm text-xs border-gray-400 mb-2"
+                                onClick={() => openModalSaldo()}
+                            >
+                                <CircleDollarSign size={16}/> Lihat Saldo
+                            </button>
+                            <button 
+                                className="btn btn-sm text-xs border-gray-400 mb-2"
+                                onClick={() => openChangePinModal()}
+                            >
+                                <SquareAsterisk size={16}/> Change PIN
+                            </button>    
+                        </div>
                         <button
                             className="w-full bg-blue-500 p-3 text-white rounded-xl font-semibold hover:bg-blue-600"
                             onClick={handleClickSave}
@@ -260,7 +302,12 @@ const Home: FC = () => {
                     </div>
                 )}
                 <ChangePinModal isOpen={isChangePinModalOpen} onClose={closeChangePinModal} />
-                <ModalDoc isOpen={isModalDocOpen} onClose={closeModalDoc} idCash={selectedIdCash} />
+                <ModalDoc 
+                    isOpen={isModalDocOpen} 
+                    onClose={closeModalDoc} 
+                    idCash={selectedIdCash} 
+                    onDataChange={(data) => setDocData(data)}
+                />
                 <ModalPoKontrabon 
                     isOpen={isModalPoKontrabon} 
                     onClose={closeModalPoKontrabon} 
