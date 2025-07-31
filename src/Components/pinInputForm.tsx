@@ -49,7 +49,7 @@ const PinInputForm: React.FC<PinInputFormProps> = ({ onSubmit }) => {
             {pin.map((_, index) => (
                 <input
                 key={index}
-                type="text"
+                type="number"
                 maxLength={1}
                 value={pin[index]}
                 onChange={(e) => handleChange(e.target.value, index)}
