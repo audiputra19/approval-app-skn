@@ -331,8 +331,7 @@ const Home: FC = () => {
                 <ModalDoc 
                     isOpen={isModalDocOpen} 
                     onClose={closeModalDoc} 
-                    idCash={selectedIdCash} 
-                    onDataChange={(data) => setDocData(data)}
+                    idCash={selectedIdCash}
                 />
                 <ModalPoKontrabon 
                     isOpen={isModalPoKontrabon} 

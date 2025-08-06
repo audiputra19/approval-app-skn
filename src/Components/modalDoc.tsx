@@ -8,18 +8,11 @@ interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     idCash: number;
-    onDataChange: (data: CashFilesRes[]) => void;
 }
-export const ModalDoc: FC<ModalProps> = ({ isOpen, onClose, idCash, onDataChange }) => {
+export const ModalDoc: FC<ModalProps> = ({ isOpen, onClose, idCash }) => {
     
     const [file, {data, isLoading}] = useFilePostMutation();
     //console.log(data?.length)
-
-    useEffect(() => {
-        if (data && onDataChange) {
-            onDataChange(data);
-        }
-    }, [data, onDataChange]);
     
     useEffect(() => {
         if (isOpen && idCash) {
