@@ -6,7 +6,7 @@ import { ChangePinModal } from "../Components/modalChangePin";
 import { NotFound } from "../Components/notFound";
 import { useAlert } from "../Contexts/alertContext";
 import { CashFilesRes, CashRequestReq, CashRequestRes } from "../Interfaces/main";
-import { useMainPostMutation } from "../Services/api";
+import { useFilePostMutation, useMainPostMutation } from "../Services/api";
 import { CircleDollarSign, FileText, SquareAsterisk } from "lucide-react";
 import { ModalDoc } from "../Components/modalDoc";
 import { ModalPoKontrabon } from "../Components/modalPoKontrabon";
@@ -29,6 +29,7 @@ const Home: FC = () => {
     const [isModalSaldoOpen, setIsModalSaldoOpen] = useState(false);
     const [selectedIdCash, setSelectedIdCash] = useState(0);
     const [selectedReferensi, setSelectedReferensi] = useState("");
+    const [fetchFile] = useFilePostMutation();
     const [docData, setDocData] = useState<CashFilesRes[]>([]);
     //console.log(docData);
 
@@ -46,6 +47,31 @@ const Home: FC = () => {
 
     // console.log('selected checkbox all:', selectedItem.selectedAll);
     // console.log('selected checkbox item:', selectedCheckbox);
+
+    useEffect(() => {
+        const fetchAllDocs = async () => {
+            if (report && report.length > 0) {
+                const promises = report.map(async (item) => {
+                    try {
+                        const res = await fetchFile({ id: item.id_cash }).unwrap();
+                        //console.log("Fetched doc for:", item.id_cash, res);
+                        return res.map(file => ({ ...file, id_cash: item.id_cash }));
+                    } catch (error) {
+                        //console.warn("Failed to fetch for id_cash:", item.id_cash, error);
+                        return [];
+                    }
+                });
+
+                const allDocsArray = await Promise.all(promises);
+                const flatDocs = allDocsArray.flat();
+
+                setDocData(flatDocs);
+            }
+        };
+
+        fetchAllDocs();
+    }, [report]);
+
 
     useEffect(() => {
         main(selectedItem);
