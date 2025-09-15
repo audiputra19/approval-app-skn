@@ -6,7 +6,8 @@ export interface ApiCashRes<T> {
 export interface CashRequestReq {
     selectedTipe: string,
     selectedAll: string,
-    selectedCheckbox: number[]
+    selectedCheckbox: number[],
+    action: string
 }
 
 export interface CashRequestRes {

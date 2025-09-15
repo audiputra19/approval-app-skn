@@ -17,7 +17,8 @@ const Home: FC = () => {
     const [selectedItem, setSelectedItem] = useState({
         selectedTipe: '0',
         selectedAll: '',
-        selectedCheckbox: []
+        selectedCheckbox: [],
+        action: ''
     });
     const [selectedCheckbox, setSelectedCheckbox] = useState<number[]>([]);
     const [main, {data, isLoading, error}] = useMainPostMutation();
@@ -98,10 +99,11 @@ const Home: FC = () => {
         })
     }
 
-    const handleClickSave = async () => {
+    const handleClickSave = async (action: "save" | "reject") => {
         const payload: CashRequestReq = {
             ...selectedItem,
             selectedCheckbox: selectedCheckbox,
+            action
         }
 
         await main(payload);
@@ -319,12 +321,20 @@ const Home: FC = () => {
                                 <SquareAsterisk size={16}/> Change PIN
                             </button>    
                         </div>
-                        <button
-                            className="w-full bg-blue-500 p-3 text-white rounded-xl font-semibold hover:bg-blue-600"
-                            onClick={handleClickSave}
-                        >
-                            Save
-                        </button>
+                        <div className="flex gap-3">
+                            <button
+                                className="w-full bg-blue-500 p-3 text-white rounded-xl font-semibold hover:bg-blue-600"
+                                onClick={() => handleClickSave("save")}
+                            >
+                                Save
+                            </button>
+                            <button
+                                className="w-full border border-red-500 p-3 text-red-500 rounded-xl font-semibold hover:bg-red-600 hover:text-white"
+                                onClick={() => handleClickSave("reject")}
+                            >
+                                Reject
+                            </button>
+                        </div>
                     </div>
                 )}
                 <ChangePinModal isOpen={isChangePinModalOpen} onClose={closeChangePinModal} />
